@@ -113,7 +113,6 @@
 				37AB953E9F671AD4039F8428 /* Pods-Football LeagueTests.debug.xcconfig */,
 				3EC966F0BD5C329439E011FC /* Pods-Football LeagueTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -142,10 +141,14 @@
 		8C2C942028E9C0DC00C4B9F8 /* Football League */ = {
 			isa = PBXGroup;
 			children = (
+				8C79C1A128E9FDF600FA6D17 /* Repository */,
+				8C79C1A228E9FDFF00FA6D17 /* Model */,
+				8C79C1A328E9FE0B00FA6D17 /* View */,
+				8C79C1A428E9FE1600FA6D17 /* ViewModel */,
+				8C79C1A528E9FE2000FA6D17 /* Utils */,
 				8C2C942128E9C0DC00C4B9F8 /* AppDelegate.swift */,
 				8C2C942328E9C0DC00C4B9F8 /* SceneDelegate.swift */,
 				8C2C942528E9C0DC00C4B9F8 /* ViewController.swift */,
-				8C2C942728E9C0DC00C4B9F8 /* Main.storyboard */,
 				8C2C942D28E9C0DE00C4B9F8 /* Assets.xcassets */,
 				8C2C942F28E9C0DE00C4B9F8 /* LaunchScreen.storyboard */,
 				8C2C943228E9C0DE00C4B9F8 /* Info.plist */,
@@ -169,6 +172,42 @@
 				8C2C944728E9C0DE00C4B9F8 /* Football_LeagueUITestsLaunchTests.swift */,
 			);
 			path = "Football LeagueUITests";
+			sourceTree = "<group>";
+		};
+		8C79C1A128E9FDF600FA6D17 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		8C79C1A228E9FDFF00FA6D17 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8C79C1A328E9FE0B00FA6D17 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8C2C942728E9C0DC00C4B9F8 /* Main.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		8C79C1A428E9FE1600FA6D17 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8C79C1A528E9FE2000FA6D17 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
