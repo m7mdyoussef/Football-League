@@ -113,6 +113,7 @@
 				8E291BB510EC61323D8AC234 /* Pods-Football LeagueTests.debug.xcconfig */,
 				E25330CC27AF79F5CBD5DB5D /* Pods-Football LeagueTests.release.xcconfig */,
 			);
+			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -141,14 +142,10 @@
 		8C2C942028E9C0DC00C4B9F8 /* Football League */ = {
 			isa = PBXGroup;
 			children = (
-				8C2C946528E9F94E00C4B9F8 /* Repository */,
-				8C2C946628E9F95A00C4B9F8 /* Model */,
-				8C2C946728E9F96600C4B9F8 /* View */,
-				8C2C946828E9F97800C4B9F8 /* ViewModel */,
-				8C2C946928E9F98700C4B9F8 /* Utils */,
 				8C2C942128E9C0DC00C4B9F8 /* AppDelegate.swift */,
 				8C2C942328E9C0DC00C4B9F8 /* SceneDelegate.swift */,
 				8C2C942528E9C0DC00C4B9F8 /* ViewController.swift */,
+				8C2C942728E9C0DC00C4B9F8 /* Main.storyboard */,
 				8C2C942D28E9C0DE00C4B9F8 /* Assets.xcassets */,
 				8C2C942F28E9C0DE00C4B9F8 /* LaunchScreen.storyboard */,
 				8C2C943228E9C0DE00C4B9F8 /* Info.plist */,
@@ -172,42 +169,6 @@
 				8C2C944728E9C0DE00C4B9F8 /* Football_LeagueUITestsLaunchTests.swift */,
 			);
 			path = "Football LeagueUITests";
-			sourceTree = "<group>";
-		};
-		8C2C946528E9F94E00C4B9F8 /* Repository */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Repository;
-			sourceTree = "<group>";
-		};
-		8C2C946628E9F95A00C4B9F8 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		8C2C946728E9F96600C4B9F8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				8C2C942728E9C0DC00C4B9F8 /* Main.storyboard */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		8C2C946828E9F97800C4B9F8 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		8C2C946928E9F98700C4B9F8 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
