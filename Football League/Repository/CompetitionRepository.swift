@@ -21,21 +21,23 @@ class CompetitionRepository: CompetitionRepositoryContract{
     var dataObservable: Observable<[Competition]>
     var errorObservable: Observable<(String)>
     var loadingObservable: Observable<Bool>
-    var items: BehaviorRelay<Competitions>
+    var items: BehaviorRelay<[Competition]>
+    
+    private var localDataSource:CompetitionsLocalDataSource
     
     init() {
         errorObservable = errorsubject.asObservable()
         loadingObservable = loadingsubject.asObservable()
         dataObservable = dataSubject.asObservable()
-        items = BehaviorRelay<Competitions>(value: [])
+        items = BehaviorRelay<[Competition]>(value: [])
         
         
         competitionsAPI = CompetionsAPI.sharedInstance
+        localDataSource = CompetitionsLocalDataSource.sharedInstance
         disposeBag = DisposeBag()
-//        fetchData()
     }
     
-     func fetchData() {
+    func fetchData() {
         self.loadingsubject.onNext(true)
         
         competitionsAPI.getAllCompetions { [weak self] (result) in
@@ -50,16 +52,27 @@ class CompetitionRepository: CompetitionRepositoryContract{
                 self.handleData(data: competitionModel?.competitions)
             case .failure(let error):
                 print("get from caching")
-                self.loadingsubject.onNext(false)
-                self.errorsubject.onNext(error.localizedDescription)
+                self.localDataSource.fetchAllCompetitions { (competitionsArray) in
+                    if let competitionsArray = competitionsArray {
+                        self.items.accept(competitionsArray)
+                        self.dataSubject.onNext(competitionsArray)
+                      //  self.errorsubject.onNext(error.localizedDescription)
+                        self.loadingsubject.onNext(false)
+                        return
+                    }else{
+                        self.loadingsubject.onNext(false)
+                        self.errorsubject.onNext(error.localizedDescription)
+                    }
+                }
             }
             
         }
     }
     
     private func handleData(data: [Competition]?) {
+        
         guard let data = data else {return}
-       var compContentArr = data
+        var compContentArr = data
         
         let group = DispatchGroup()
         
@@ -82,48 +95,32 @@ class CompetitionRepository: CompetitionRepositoryContract{
                 }
                 group.leave()
             }
-
             
-            group.notify(queue: .main) {
+            
+            group.notify(queue: .main) { [weak self] in
+                guard let self = self else{return}
                 if comp == (data.count - 1) {
+                    self.localDataSource.deleteAllData()
                     //cach and return to dataSubject
                     self.loadingsubject.onNext(false)
-                    self.dataSubject.onNext(compContentArr)
+                    
+                    self.localDataSource.save(competitionArray: compContentArr) { [weak self] (result) in
+                        guard let self = self else{return}
+                        switch result{
+                        case .success(let bol):
+                            if(bol){
+                                print("HD* in b=true")
+                            }
+                        case .failure(let error):
+                            print("HD* in error")
+                            self.errorsubject.onNext(error.localizedDescription)
+                        }
+                        self.items.accept(compContentArr)
+                        self.dataSubject.onNext(compContentArr)
+                    }
                 }
-             }
+            }
         }
-//        data?.forEach{ comp in
-//            guard let code = comp.code else {return}
-//            group.enter()
-//            competitionsAPI.getCompetionTeams(code: code) { [weak self] (result) in
-//                guard let self = self else{
-//                    print("PVM* getTeamsFailed")
-//                    return
-//                }
-//
-//                switch result{
-//                case .success(let competitionTeamsModel):
-//                    print("3")
-//                    byCode[code] = competitionTeamsModel?.count
-//                case .failure(let error):
-//                    self.errorsubject.onNext(error.localizedDescription)
-//                }
-//                group.leave()
-//            }
-//
-//
-//            group.notify(queue: .main) {
-//
-////                compContentArr.append(CompetitionContentModel(leagueName: comp.name, leagueShortName: comp.code, numberOfTeams: byCode[code], numberOfTGames: ((byCode[code]! - 1) * byCode[code]!) ))
-//                print("ditcccc:: \(byCode[code])")
-//                //data.map { byCode[$0]! }
-//
-//                if
-//             }
-//        }
-
-        
-        
     }
     
 }
