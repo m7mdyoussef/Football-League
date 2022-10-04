@@ -17,8 +17,26 @@ class CompetionTableViewCell: UITableViewCell {
     
     var CompetitionModel:Competition!{
         didSet{
-
+            guard let CompetitionModel = CompetitionModel else { return }
+            configureCellModel(CompetitionModel: CompetitionModel)
         }
+    }
+    
+    func configureCellModel(CompetitionModel:Competition){
+        
+        var leagueName = CompetitionModel.name ?? ""
+        if let leagueShortName = CompetitionModel.code {
+            leagueName += " (" + (leagueShortName) + ")"
+        }
+        leageNameLabel.text = leagueName
+        if let numberOfTeams = CompetitionModel.teamsData?.count {
+            numberOfteamsLabel.text = String(numberOfTeams)
+            numberOfGamesLabel.text = String(getNumberOfGames(numberOfTeams: numberOfTeams))
+        }
+    }
+    
+    func getNumberOfGames(numberOfTeams:Int) -> Int{
+        return (((numberOfTeams - 1) * 2) * numberOfTeams)
     }
     
     override func awakeFromNib() {

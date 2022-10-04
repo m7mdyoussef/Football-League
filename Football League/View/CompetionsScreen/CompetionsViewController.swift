@@ -22,6 +22,7 @@ class CompetionsViewController: BaseViewController {
         instantiateRXItems()
         
         listenOnObservables()
+        competionsViewModel.fetchdata()
     }
     
     private func setupNavigationController(){
@@ -39,14 +40,33 @@ class CompetionsViewController: BaseViewController {
     }
     
     private func listenOnObservables(){
-        
-        
         competionsViewModel.items.bind(to: competionsTableView.rx.items){ (tableView, row, element) in
             let cell = tableView.dequeueReusableCell(withIdentifier: CompetionTableViewCell.identifier, for: IndexPath(index: row)) as! CompetionTableViewCell
             cell.CompetitionModel = element
             return cell
         }.disposed(by: disposeBag)
         
+        
+        competionsViewModel.errorObservable.subscribe(onNext: {[weak self] (message) in
+            guard let self = self else{
+                print("PVC* error in errorObservable")
+                return
+            }
+            self.showAlert(title: "Error", body: message, actions: [UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil)])
+        }).disposed(by: disposeBag)
+        
+        competionsViewModel.loadingObservable.subscribe(onNext: {[weak self] (boolValue) in
+            guard let self = self else{
+                print("PVC* error in doneObservable")
+                return
+            }
+            switch boolValue{
+            case true:
+                self.showLoading()
+            case false:
+                self.hideLoading()
+            }
+        }).disposed(by: disposeBag)
 
     }
 }

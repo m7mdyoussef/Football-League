@@ -18,9 +18,9 @@ struct Competition: Codable {
     let currentSeason: CurrentSeason?
     let numberOfAvailableSeasons: Int?
     let lastUpdated: String?
-
+    var teamsData: CompetitionTeamsModel?
     enum CodingKeys: String, CodingKey {
-        case id, area, name, code
+        case id, area, name, code, teamsData
         case emblemURL = "emblemUrl"
         case plan, currentSeason, numberOfAvailableSeasons, lastUpdated
     }
