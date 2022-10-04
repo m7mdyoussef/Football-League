@@ -63,6 +63,17 @@ class CompetitionDetailsViewController: BaseViewController {
             cell.CompetitionTeam = element
             return cell
         }.disposed(by: disposeBag)
+        
+        teamsTableView.rx.modelSelected(Team.self).subscribe(onNext: {[weak self] (teamItem) in
+            guard let self = self else {return}
+            guard let vc = self.storyboard?.instantiateViewController(identifier: "ClubDetailsViewController", creator: { coder in
+                return ClubDetailsViewController(coder: coder, team: teamItem)
+            }) else {
+                fatalError("Failed to load EditUserViewController from storyboard.")
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
+        
     }
     
 }
