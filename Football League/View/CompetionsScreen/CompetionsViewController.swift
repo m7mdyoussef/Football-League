@@ -67,6 +67,18 @@ class CompetionsViewController: BaseViewController {
                 self.hideLoading()
             }
         }).disposed(by: disposeBag)
+        
+        competionsTableView.rx.modelSelected(Competition.self).subscribe(onNext: {[weak self] (competitionItem) in
+            guard let self = self else {return}
+            guard let vc = self.storyboard?.instantiateViewController(identifier: Constants.CompetitionDetailsVC, creator: { coder in
+                return CompetitionDetailsViewController(coder: coder, competition: competitionItem)
+            }) else {
+                fatalError("Failed to load EditUserViewController from storyboard.")
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
+        
+        
 
     }
 }
