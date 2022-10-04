@@ -78,8 +78,6 @@ class CompetionsViewController: BaseViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }).disposed(by: disposeBag)
         
-        
-
     }
 }
 
