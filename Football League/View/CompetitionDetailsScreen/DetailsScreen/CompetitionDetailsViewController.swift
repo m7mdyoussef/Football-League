@@ -6,6 +6,7 @@ import SDWebImage
 
 class CompetitionDetailsViewController: BaseViewController {
     
+    @IBOutlet private weak var detailsView: UIView!
     @IBOutlet private weak var competitionLogo: UIImageView!
     @IBOutlet private weak var competionName: UILabel!
     @IBOutlet private weak var competitionType: UILabel!
@@ -30,7 +31,7 @@ class CompetitionDetailsViewController: BaseViewController {
         super.viewDidLoad()
         teamsTableView.estimatedRowHeight = 140
         teamsTableView.rowHeight = UITableView.automaticDimension
-        
+        detailsView.addShadow(cornerRadius: 10.0, offset: CGSize(width: 2.0, height: 2.0), color: UIColor.black, radius: 3.0, opacity: 0.8)
         items.accept(competition.teamsData?.teams ?? [])
         setupNavigationController()
         registerCellNibFile()
@@ -40,7 +41,7 @@ class CompetitionDetailsViewController: BaseViewController {
     }
     
     private func setupNavigationController(){
-        self.title = "Competition Details"
+        self.title = Constants.CompetitionDetailsScreenHeader
     }
     
     private func registerCellNibFile(){
@@ -49,24 +50,24 @@ class CompetitionDetailsViewController: BaseViewController {
     }
     
     private func assignLabels(){
-        competitionLogo.sd_setImage(with: URL(string: competition.emblem ?? ""), placeholderImage: UIImage(named:"placeholder"))
+        competitionLogo.downloadImage(url: competition.emblem ?? "")
         competionName.text = (competition.code ?? "") + " " + (competition.name ?? "")
         competitionType.text = competition.type ?? ""
         if let numberOfTeams = competition.teamsData?.count {
-            numberOfteamsLbl.text = "\(numberOfTeams) Teams"
+            numberOfteamsLbl.text = "\(numberOfTeams) " + (Constants.teams)
         }
     }
     
     private func listenOnObservables(){
         items.bind(to: teamsTableView.rx.items){ (tableView, row, element) in
             let cell = tableView.dequeueReusableCell(withIdentifier: TeamDetailsCell.identifier, for: IndexPath(index: row)) as! TeamDetailsCell
-            cell.CompetitionTeam = element
+            cell.configureCellModel(CompetitionTeamModel: element)
             return cell
         }.disposed(by: disposeBag)
         
         teamsTableView.rx.modelSelected(Team.self).subscribe(onNext: {[weak self] (teamItem) in
             guard let self = self else {return}
-            guard let vc = self.storyboard?.instantiateViewController(identifier: "ClubDetailsViewController", creator: { coder in
+            guard let vc = self.storyboard?.instantiateViewController(identifier: Constants.ClubDetailsVC, creator: { coder in
                 return ClubDetailsViewController(coder: coder, team: teamItem)
             }) else {
                 fatalError("Failed to load EditUserViewController from storyboard.")

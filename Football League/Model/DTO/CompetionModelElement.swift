@@ -4,8 +4,9 @@ import Foundation
 class CompetionModelElement:NSObject, Codable, NSSecureCoding {
     
     static var supportsSecureCoding: Bool {
-          return true
-       }
+        return true
+    }
+    
     var count: Int?
     var competitions: [Competition]?
     
@@ -22,22 +23,21 @@ class CompetionModelElement:NSObject, Codable, NSSecureCoding {
     func encode(with coder: NSCoder) {
         if let count = count { coder.encode(count, forKey: "count") }
         if let competitions = competitions { coder.encode(competitions, forKey: "competitions") }
-
     }
 }
 
 // MARK: - Competition
 class Competition:NSObject, Codable, NSSecureCoding {
     static var supportsSecureCoding: Bool {
-          return true
-       }
+        return true
+    }
     
     var name: String?
     var code: String?
     var type: String?
     var emblem: String?
     var teamsData: CompetitionTeamsModel?
-
+    
     required convenience init(coder decoder: NSCoder) {
         self.init()
         self.name = decoder.decodeObject(forKey: "name") as? String
@@ -60,7 +60,6 @@ class Competition:NSObject, Codable, NSSecureCoding {
         if let type = type { coder.encode(type, forKey: "type") }
         if let emblem = emblem { coder.encode(emblem, forKey: "emblem") }
         if let teamsData = teamsData { coder.encode(teamsData, forKey: "teamsData") }
-
     }
     
 }

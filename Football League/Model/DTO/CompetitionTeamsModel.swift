@@ -3,8 +3,8 @@ import Foundation
 
 class CompetitionTeamsModel:NSObject, Codable, NSSecureCoding{
     static var supportsSecureCoding: Bool {
-          return true
-       }
+        return true
+    }
     var count: Int?
     var teams: [Team]?
     
@@ -27,8 +27,8 @@ class CompetitionTeamsModel:NSObject, Codable, NSSecureCoding{
 // MARK: - Team
 class Team:NSObject, Codable, NSSecureCoding {
     static var supportsSecureCoding: Bool {
-          return true
-       }
+        return true
+    }
     var name, shortName: String?
     var crest: String?
     var address: String?
@@ -45,11 +45,11 @@ class Team:NSObject, Codable, NSSecureCoding {
         self.address = decoder.decodeObject(forKey: "address") as? String
         self.clubColors = decoder.decodeObject(forKey: "clubColors") as? String
         self.venue = decoder.decodeObject(forKey: "venue") as? String
-
+        
         self.runningCompetitions = decoder.decodeObject(forKey: "runningCompetitions") as? [Competition]
         self.coach = decoder.decodeObject(forKey: "coach") as? Coach
         self.squad = decoder.decodeObject(forKey: "squad") as? [Squad]
-
+        
     }
     convenience init(name: String?, shortName: String?,crest: String?,address: String?,clubColors: String?, venue: String?,runningCompetitions: [Competition]?,coach: Coach?,squad: [Squad]?) {
         self.init()
@@ -80,8 +80,8 @@ class Team:NSObject, Codable, NSSecureCoding {
 // MARK: - Coach
 class Coach:NSObject, Codable, NSSecureCoding {
     static var supportsSecureCoding: Bool {
-          return true
-       }
+        return true
+    }
     var name: String?
     
     required convenience init(coder decoder: NSCoder) {
@@ -100,8 +100,8 @@ class Coach:NSObject, Codable, NSSecureCoding {
 // MARK: - Squad
 class Squad:NSObject, Codable, NSSecureCoding {
     static var supportsSecureCoding: Bool {
-          return true
-       }
+        return true
+    }
     var name: String?
     var position: String?
     var nationality: String?
@@ -110,7 +110,7 @@ class Squad:NSObject, Codable, NSSecureCoding {
         self.name = decoder.decodeObject(forKey: "name") as? String
         self.position = decoder.decodeObject(forKey: "position") as? String
         self.nationality = decoder.decodeObject(forKey: "nationality") as? String
-
+        
     }
     convenience init(name:String?, position: String?, nationality: String?) {
         self.init()
@@ -122,7 +122,7 @@ class Squad:NSObject, Codable, NSSecureCoding {
         if let name = name { coder.encode(name, forKey: "name") }
         if let position = position { coder.encode(position, forKey: "position") }
         if let nationality = nationality { coder.encode(nationality, forKey: "nationality") }
-
+        
     }
 }
 

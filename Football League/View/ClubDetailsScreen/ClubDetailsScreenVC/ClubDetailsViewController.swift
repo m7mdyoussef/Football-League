@@ -43,12 +43,8 @@ class ClubDetailsViewController: BaseViewController {
     }
     
     private func setupNavigationController(){
-        self.title = "Club Details"
+        self.title = Constants.clubDetailsScreenHeader
     }
-    
-//    @IBOutlet private weak var clubVenueLbl: UILabel!
-//    @IBOutlet private weak var clubCoachLbl: UILabel!
-//    @IBOutlet private weak var runningCopetitionLbl: UILabel!
     
     private func registerCellNibFile(){
         let competitionsNibCell = UINib(nibName: ClubDetailsCell.identifier, bundle: nil)
@@ -56,7 +52,7 @@ class ClubDetailsViewController: BaseViewController {
     }
     
     private func assignLabels(){
-        clubImageLogo.sd_setImage(with: URL(string: team.crest ?? ""), placeholderImage: UIImage(named:"placeholder"))
+        clubImageLogo.downloadImage(url: team.crest ?? "")
         var teamName = team.name ?? ""
         if let teamShortName = team.shortName {
             teamName += " (" + teamShortName + ")"
@@ -78,7 +74,7 @@ class ClubDetailsViewController: BaseViewController {
     private func listenOnObservables(){
         items.bind(to: teamSquadTableView.rx.items){ (tableView, row, element) in
             let cell = tableView.dequeueReusableCell(withIdentifier: ClubDetailsCell.identifier, for: IndexPath(index: row)) as! ClubDetailsCell
-            cell.teamSquad = element
+            cell.configureCellModel(teamSquad: element)
             return cell
         }.disposed(by: disposeBag)
     }
