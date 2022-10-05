@@ -15,7 +15,6 @@ struct Constants{
     static let databaseDomain = "databaseDomain"
     static let competitionData = "competitionData"
 
-
     static let CompetitionsScreenHeader = "Competitions"
     static let CompetitionDetailsScreenHeader = "Competition Details"
     static let clubDetailsScreenHeader = "Club Details"

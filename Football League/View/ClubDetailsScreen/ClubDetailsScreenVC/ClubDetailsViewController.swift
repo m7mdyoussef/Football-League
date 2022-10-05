@@ -31,15 +31,17 @@ class ClubDetailsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        teamSquadTableView.estimatedRowHeight = 80
-        teamSquadTableView.rowHeight = UITableView.automaticDimension
-        
         items.accept(team.squad ?? [])
+        setUpUI()
         setupNavigationController()
         registerCellNibFile()
         assignLabels()
-        
         listenOnObservables()
+    }
+    
+    private func setUpUI(){
+        teamSquadTableView.estimatedRowHeight = 80
+        teamSquadTableView.rowHeight = UITableView.automaticDimension
     }
     
     private func setupNavigationController(){

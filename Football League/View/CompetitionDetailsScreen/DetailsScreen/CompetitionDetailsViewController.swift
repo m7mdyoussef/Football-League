@@ -29,15 +29,20 @@ class CompetitionDetailsViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        teamsTableView.estimatedRowHeight = 120
-        teamsTableView.rowHeight = UITableView.automaticDimension
-        detailsView.addShadow(cornerRadius: 10.0, offset: CGSize(width: 2.0, height: 2.0), color: UIColor.black, radius: 3.0, opacity: 0.8)
+
         items.accept(competition.teamsData?.teams ?? [])
+        setupUI()
         setupNavigationController()
         registerCellNibFile()
         assignLabels()
         
         listenOnObservables()
+    }
+    
+    private func setupUI(){
+        teamsTableView.estimatedRowHeight = 120
+        teamsTableView.rowHeight = UITableView.automaticDimension
+        detailsView.addShadow(cornerRadius: 10.0, offset: CGSize(width: 2.0, height: 2.0), color: UIColor.black, radius: 3.0, opacity: 0.8)
     }
     
     private func setupNavigationController(){

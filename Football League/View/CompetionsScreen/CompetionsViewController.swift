@@ -6,11 +6,10 @@ import RxSwift
 
 class CompetionsViewController: BaseViewController {
     
-    @IBOutlet weak var networkConnectionFailView: UIView!
-    @IBOutlet weak var retryButton: UIButton!
-    
-    @IBOutlet weak var errorImageView: UIImageView!
-    @IBOutlet weak var errorReasonLbl: UILabel!
+    @IBOutlet private weak var networkConnectionFailView: UIView!
+    @IBOutlet private weak var retryButton: UIButton!
+    @IBOutlet private weak var errorImageView: UIImageView!
+    @IBOutlet private weak var errorReasonLbl: UILabel!
     @IBOutlet private weak var competionsTableView: UITableView!
     
     private var disposeBag:DisposeBag!
@@ -19,15 +18,18 @@ class CompetionsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        competionsTableView.estimatedRowHeight = 140
-        competionsTableView.rowHeight = UITableView.automaticDimension
-        
+        setupTableViewHeight()
         setupNavigationController()
         registerCellNibFile()
         instantiateRXItems()
         
         listenOnObservables()
         competionsViewModel.fetchdata()
+    }
+    
+    private func setupTableViewHeight(){
+        competionsTableView.estimatedRowHeight = 140
+        competionsTableView.rowHeight = UITableView.automaticDimension
     }
     
     private func setupNavigationController(){
@@ -45,7 +47,6 @@ class CompetionsViewController: BaseViewController {
     }
     
     private func showFailViewWith(error:NSError){
-       
         self.networkConnectionFailView.isHidden = false
         self.competionsTableView.isHidden = true
         if error.code == 0 {
@@ -64,14 +65,10 @@ class CompetionsViewController: BaseViewController {
     
     private func listenOnObservables(){
         competionsViewModel.items.bind(to: competionsTableView.rx.items){ (tableView, row, element) in
-         
-            self.hideFailView()
-            
             let cell = tableView.dequeueReusableCell(withIdentifier: CompetionTableViewCell.identifier, for: IndexPath(index: row)) as! CompetionTableViewCell
             cell.configureCellModel(CompetitionModel: element)
             return cell
         }.disposed(by: disposeBag)
-        
         
         competionsViewModel.errorObservable.subscribe(onNext: {[weak self] (error) in
             guard let self = self else{
@@ -88,6 +85,7 @@ class CompetionsViewController: BaseViewController {
             switch boolValue{
             case true:
                 self.showLoading()
+                self.hideFailView()
             case false:
                 self.hideLoading()
             }
