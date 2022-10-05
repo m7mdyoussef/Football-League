@@ -6,6 +6,9 @@ import RxSwift
 
 class CompetionsViewController: BaseViewController {
     
+    @IBOutlet weak var networkConnectionFailView: UIView!
+    @IBOutlet weak var retryButton: UIButton!
+    
     @IBOutlet private weak var competionsTableView: UITableView!
     
     private var disposeBag:DisposeBag!
@@ -39,8 +42,35 @@ class CompetionsViewController: BaseViewController {
         competionsViewModel = CompetitionsViewModel()
     }
     
+    private func showNetworkConnectionFailView(){
+        self.networkConnectionFailView.isHidden = false
+        self.competionsTableView.isHidden = true
+    }
+    
+    private func hideNetworkConnectionFailView(){
+        self.networkConnectionFailView.isHidden = true
+        self.competionsTableView.isHidden = false
+    }
+    
     private func listenOnObservables(){
+        
+        competionsViewModel.networkConnectionFailedObservable.subscribe(onNext: {[weak self] (boolValue) in
+            guard let self = self else{
+                print("PVC* error in doneObservable")
+                return
+            }
+            switch boolValue{
+            case true:
+                self.showNetworkConnectionFailView()
+            case false:
+                self.hideNetworkConnectionFailView()
+            }
+        }).disposed(by: disposeBag)
+        
         competionsViewModel.items.bind(to: competionsTableView.rx.items){ (tableView, row, element) in
+         
+            self.hideNetworkConnectionFailView()
+            
             let cell = tableView.dequeueReusableCell(withIdentifier: CompetionTableViewCell.identifier, for: IndexPath(index: row)) as! CompetionTableViewCell
             cell.CompetitionModel = element
             return cell
@@ -79,6 +109,11 @@ class CompetionsViewController: BaseViewController {
         }).disposed(by: disposeBag)
         
     }
+    
+    @IBAction func didTapRetryButton(_ sender: UIButton) {
+        competionsViewModel.fetchdata()
+    }
+    
 }
 
 extension CompetionsViewController:UITableViewDelegate {

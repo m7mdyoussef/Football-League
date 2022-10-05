@@ -13,6 +13,7 @@ class CompetitionRepository: CompetitionRepositoryContract{
     
     private var errorsubject = PublishSubject<String>()
     private var loadingsubject = PublishSubject<Bool>()
+    private var networkConnectionFailedSubject = PublishSubject<Bool>()
     private var dataSubject = PublishSubject<[Competition]>()
     private var competitionsAPI:CompetionsApiContract!
     private var disposeBag:DisposeBag
@@ -21,6 +22,7 @@ class CompetitionRepository: CompetitionRepositoryContract{
     var dataObservable: Observable<[Competition]>
     var errorObservable: Observable<(String)>
     var loadingObservable: Observable<Bool>
+    var networkConnectionFailedObservable: Observable<Bool>
     var items: BehaviorRelay<[Competition]>
     
     private var localDataSource:CompetitionsLocalDataSource
@@ -28,6 +30,7 @@ class CompetitionRepository: CompetitionRepositoryContract{
     init() {
         errorObservable = errorsubject.asObservable()
         loadingObservable = loadingsubject.asObservable()
+        networkConnectionFailedObservable = networkConnectionFailedSubject.asObservable()
         dataObservable = dataSubject.asObservable()
         items = BehaviorRelay<[Competition]>(value: [])
         
@@ -40,6 +43,7 @@ class CompetitionRepository: CompetitionRepositoryContract{
     func fetchData() {
         self.loadingsubject.onNext(true)
         
+        
         competitionsAPI.getAllCompetions { [weak self] (result) in
             guard let self = self else{
                 print("PVM* getComFailed")
@@ -50,18 +54,21 @@ class CompetitionRepository: CompetitionRepositoryContract{
             case .success(let competitionModel):
                 print("2")
                 self.handleData(data: competitionModel?.competitions)
-            case .failure(let error):
+            case .failure(_):
                 print("get from caching")
                 self.localDataSource.fetchAllCompetitions { (competitionsArray) in
                     if let competitionsArray = competitionsArray {
                         self.items.accept(competitionsArray)
                         self.dataSubject.onNext(competitionsArray)
-                      //  self.errorsubject.onNext(error.localizedDescription)
+                       
                         self.loadingsubject.onNext(false)
                         return
                     }else{
                         self.loadingsubject.onNext(false)
-                        self.errorsubject.onNext(error.localizedDescription)
+                        self.networkConnectionFailedSubject.onNext(true)
+                        //handle in case server error
+                      //  self.errorsubject.onNext(error.localizedDescription)
+                        
                     }
                 }
             }
