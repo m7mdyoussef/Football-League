@@ -39,13 +39,58 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TUD-KY-fbM" userLabel="networkConnectionFailView">
+                                <rect key="frame" x="0.0" y="112" width="414" height="672"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NetworkError" translatesAutoresizingMaskIntoConstraints="NO" id="XmC-zf-648">
+                                        <rect key="frame" x="41.5" y="8" width="331" height="336"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Internet Connection" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gcz-SD-cVb">
+                                        <rect key="frame" x="16" y="376" width="382" height="20"/>
+                                        <fontDescription key="fontDescription" name="ArialRoundedMTBold" family="Arial Rounded MT Bold" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NNn-9s-QNP">
+                                        <rect key="frame" x="57" y="466" width="300" height="60"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="60" id="7BJ-T1-d6I"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="300" id="BgZ-4Q-0Vw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
+                                        <state key="normal" title="Try again">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didTapRetryButton:" destination="Tcq-mt-gdA" eventType="touchUpInside" id="Vxg-1E-nYg"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="Gcz-SD-cVb" firstAttribute="top" secondItem="XmC-zf-648" secondAttribute="bottom" constant="32" id="49q-gm-2jW"/>
+                                    <constraint firstItem="XmC-zf-648" firstAttribute="top" secondItem="TUD-KY-fbM" secondAttribute="top" constant="8" id="H9l-bL-bC4"/>
+                                    <constraint firstItem="NNn-9s-QNP" firstAttribute="centerX" secondItem="TUD-KY-fbM" secondAttribute="centerX" id="Hko-JP-B3V"/>
+                                    <constraint firstItem="Gcz-SD-cVb" firstAttribute="leading" secondItem="TUD-KY-fbM" secondAttribute="leading" constant="16" id="Rku-tW-76T"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gcz-SD-cVb" secondAttribute="trailing" constant="16" id="X0I-3A-uuH"/>
+                                    <constraint firstItem="XmC-zf-648" firstAttribute="height" secondItem="TUD-KY-fbM" secondAttribute="height" multiplier="0.5" id="eKx-NV-AdY"/>
+                                    <constraint firstItem="XmC-zf-648" firstAttribute="centerX" secondItem="TUD-KY-fbM" secondAttribute="centerX" id="fDO-pM-n1r"/>
+                                    <constraint firstItem="NNn-9s-QNP" firstAttribute="top" secondItem="Gcz-SD-cVb" secondAttribute="bottom" constant="70" id="uYw-vy-TVj"/>
+                                    <constraint firstItem="XmC-zf-648" firstAttribute="width" secondItem="TUD-KY-fbM" secondAttribute="width" multiplier="0.8" id="zpr-GW-ven"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ZC9-k7-1lq"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="482-gD-Hu6" firstAttribute="top" secondItem="4bc-uR-hcY" secondAttribute="top" constant="88" id="1q5-eT-7Yj"/>
                             <constraint firstAttribute="bottom" secondItem="482-gD-Hu6" secondAttribute="bottom" id="2am-cZ-2fP"/>
+                            <constraint firstItem="TUD-KY-fbM" firstAttribute="height" secondItem="4bc-uR-hcY" secondAttribute="height" multiplier="0.75" id="JZU-VR-FlG"/>
+                            <constraint firstItem="TUD-KY-fbM" firstAttribute="centerY" secondItem="4bc-uR-hcY" secondAttribute="centerY" id="Qo6-kA-gJn"/>
                             <constraint firstItem="482-gD-Hu6" firstAttribute="leading" secondItem="ZC9-k7-1lq" secondAttribute="leading" id="WI7-YG-DXl"/>
+                            <constraint firstItem="TUD-KY-fbM" firstAttribute="width" secondItem="4bc-uR-hcY" secondAttribute="width" id="Y7B-CD-Hpc"/>
+                            <constraint firstItem="TUD-KY-fbM" firstAttribute="centerX" secondItem="4bc-uR-hcY" secondAttribute="centerX" id="kFI-x4-lJs"/>
                             <constraint firstItem="482-gD-Hu6" firstAttribute="trailing" secondItem="ZC9-k7-1lq" secondAttribute="trailing" id="tNs-Lg-6aS"/>
                         </constraints>
                     </view>
@@ -53,6 +98,8 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="competionsTableView" destination="482-gD-Hu6" id="psK-xD-aSM"/>
+                        <outlet property="networkConnectionFailView" destination="TUD-KY-fbM" id="w9v-Ll-kUk"/>
+                        <outlet property="retryButton" destination="NNn-9s-QNP" id="Jpn-iN-fTz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jZv-xf-uEV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -348,6 +395,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="NetworkError" width="1000" height="1000"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
