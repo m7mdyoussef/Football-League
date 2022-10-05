@@ -98,6 +98,8 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="competionsTableView" destination="482-gD-Hu6" id="psK-xD-aSM"/>
+                        <outlet property="errorImageView" destination="XmC-zf-648" id="cUP-wt-zP7"/>
+                        <outlet property="errorReasonLbl" destination="Gcz-SD-cVb" id="DIJ-86-1Cg"/>
                         <outlet property="networkConnectionFailView" destination="TUD-KY-fbM" id="w9v-Ll-kUk"/>
                         <outlet property="retryButton" destination="NNn-9s-QNP" id="Jpn-iN-fTz"/>
                     </connections>

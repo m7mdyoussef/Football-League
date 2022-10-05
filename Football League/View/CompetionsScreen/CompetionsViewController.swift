@@ -9,6 +9,8 @@ class CompetionsViewController: BaseViewController {
     @IBOutlet weak var networkConnectionFailView: UIView!
     @IBOutlet weak var retryButton: UIButton!
     
+    @IBOutlet weak var errorImageView: UIImageView!
+    @IBOutlet weak var errorReasonLbl: UILabel!
     @IBOutlet private weak var competionsTableView: UITableView!
     
     private var disposeBag:DisposeBag!
@@ -42,9 +44,17 @@ class CompetionsViewController: BaseViewController {
         competionsViewModel = CompetitionsViewModel()
     }
     
-    private func showNetworkConnectionFailView(){
+    private func showNetworkConnectionFailView(error:NSError){
+       
         self.networkConnectionFailView.isHidden = false
         self.competionsTableView.isHidden = true
+        if error.code == 0 {
+            errorImageView.image = UIImage(named: "NetworkError")
+            errorReasonLbl.text = "No Internet Connection"
+        }else{
+            errorImageView.image = UIImage(named: "serverError")
+            errorReasonLbl.text = "Internal Server Error"
+        }
     }
     
     private func hideNetworkConnectionFailView(){
@@ -54,18 +64,18 @@ class CompetionsViewController: BaseViewController {
     
     private func listenOnObservables(){
         
-        competionsViewModel.networkConnectionFailedObservable.subscribe(onNext: {[weak self] (boolValue) in
-            guard let self = self else{
-                print("PVC* error in doneObservable")
-                return
-            }
-            switch boolValue{
-            case true:
-                self.showNetworkConnectionFailView()
-            case false:
-                self.hideNetworkConnectionFailView()
-            }
-        }).disposed(by: disposeBag)
+//        competionsViewModel.networkConnectionFailedObservable.subscribe(onNext: {[weak self] (boolValue) in
+//            guard let self = self else{
+//                print("PVC* error in doneObservable")
+//                return
+//            }
+//            switch boolValue{
+//            case true:
+//                self.showNetworkConnectionFailView()
+//            case false:
+//                self.hideNetworkConnectionFailView()
+//            }
+//        }).disposed(by: disposeBag)
         
         competionsViewModel.items.bind(to: competionsTableView.rx.items){ (tableView, row, element) in
          
@@ -77,12 +87,13 @@ class CompetionsViewController: BaseViewController {
         }.disposed(by: disposeBag)
         
         
-        competionsViewModel.errorObservable.subscribe(onNext: {[weak self] (message) in
+        competionsViewModel.errorObservable.subscribe(onNext: {[weak self] (error) in
             guard let self = self else{
                 print("PVC* error in errorObservable")
                 return
             }
-            self.showAlert(title: "Error", body: message, actions: [UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil)])
+            self.showAlert(title: "Error", body: error.localizedDescription, actions: [UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil)])
+            self.showNetworkConnectionFailView(error:error)
         }).disposed(by: disposeBag)
         
         competionsViewModel.loadingObservable.subscribe(onNext: {[weak self] (boolValue) in

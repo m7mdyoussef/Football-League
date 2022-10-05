@@ -11,7 +11,7 @@ import RxRelay
 
 class CompetitionRepository: CompetitionRepositoryContract{
     
-    private var errorsubject = PublishSubject<String>()
+    private var errorsubject = PublishSubject<NSError>()
     private var loadingsubject = PublishSubject<Bool>()
     private var networkConnectionFailedSubject = PublishSubject<Bool>()
     private var dataSubject = PublishSubject<[Competition]>()
@@ -20,7 +20,7 @@ class CompetitionRepository: CompetitionRepositoryContract{
     
     
     var dataObservable: Observable<[Competition]>
-    var errorObservable: Observable<(String)>
+    var errorObservable: Observable<(NSError)>
     var loadingObservable: Observable<Bool>
     var networkConnectionFailedObservable: Observable<Bool>
     var items: BehaviorRelay<[Competition]>
@@ -54,7 +54,7 @@ class CompetitionRepository: CompetitionRepositoryContract{
             case .success(let competitionModel):
                 print("2")
                 self.handleData(data: competitionModel?.competitions)
-            case .failure(_):
+            case .failure(let error):
                 print("get from caching")
                 self.localDataSource.fetchAllCompetitions { (competitionsArray) in
                     if let competitionsArray = competitionsArray {
@@ -65,9 +65,12 @@ class CompetitionRepository: CompetitionRepositoryContract{
                         return
                     }else{
                         self.loadingsubject.onNext(false)
-                        self.networkConnectionFailedSubject.onNext(true)
-                        //handle in case server error
-                      //  self.errorsubject.onNext(error.localizedDescription)
+                        self.errorsubject.onNext(error)
+                       // (error.code == 0) ? self.networkConnectionFailedSubject.onNext(true) : self.errorsubject.onNext(error.localizedDescription)
+                        
+//                        //handle in case server error
+//                        print("err:: \(error.code)")
+                        
                         
                     }
                 }
@@ -98,7 +101,7 @@ class CompetitionRepository: CompetitionRepositoryContract{
                     compContentArr[comp].teamsData = competitionTeamsModel
                 case .failure(let error):
                     self.loadingsubject.onNext(false)
-                    self.errorsubject.onNext(error.localizedDescription)
+                    self.errorsubject.onNext(error)
                 }
                 group.leave()
             }
@@ -120,7 +123,7 @@ class CompetitionRepository: CompetitionRepositoryContract{
                             }
                         case .failure(let error):
                             print("HD* in error")
-                            self.errorsubject.onNext(error.localizedDescription)
+                            self.errorsubject.onNext(error)
                         }
                         self.items.accept(compContentArr)
                         self.dataSubject.onNext(compContentArr)
