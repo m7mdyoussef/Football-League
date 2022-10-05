@@ -8,7 +8,7 @@
 import UIKit
 
 class CompetionTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var leageNameLabel: UILabel!
     @IBOutlet weak var numberOfteamsLabel: UILabel!
     @IBOutlet weak var numberOfGamesLabel: UILabel!
@@ -42,5 +42,5 @@ class CompetionTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectionStyle = .none
-    }    
+    }
 }

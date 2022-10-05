@@ -31,7 +31,6 @@
 		8C79C1C528EA26BC00FA6D17 /* BaseViewModelContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C79C1C428EA26BC00FA6D17 /* BaseViewModelContract.swift */; };
 		8C79C1C728EA26E800FA6D17 /* CompetionsViewModelContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C79C1C628EA26E800FA6D17 /* CompetionsViewModelContract.swift */; };
 		8C79C1CA28EA297100FA6D17 /* CompetitionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C79C1C928EA297100FA6D17 /* CompetitionsViewModel.swift */; };
-		8C79C1CC28EB501800FA6D17 /* CompetitionContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C79C1CB28EB501800FA6D17 /* CompetitionContentModel.swift */; };
 		8C79C1CE28EB544800FA6D17 /* CompetitionRepositoryContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C79C1CD28EB544800FA6D17 /* CompetitionRepositoryContract.swift */; };
 		8C79C1D028EB553E00FA6D17 /* CompetitionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C79C1CF28EB553E00FA6D17 /* CompetitionRepository.swift */; };
 		8C79C1D228EB67EE00FA6D17 /* CompetitionTeamsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C79C1D128EB67EE00FA6D17 /* CompetitionTeamsModel.swift */; };
@@ -99,7 +98,6 @@
 		8C79C1C428EA26BC00FA6D17 /* BaseViewModelContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModelContract.swift; sourceTree = "<group>"; };
 		8C79C1C628EA26E800FA6D17 /* CompetionsViewModelContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetionsViewModelContract.swift; sourceTree = "<group>"; };
 		8C79C1C928EA297100FA6D17 /* CompetitionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionsViewModel.swift; sourceTree = "<group>"; };
-		8C79C1CB28EB501800FA6D17 /* CompetitionContentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionContentModel.swift; sourceTree = "<group>"; };
 		8C79C1CD28EB544800FA6D17 /* CompetitionRepositoryContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionRepositoryContract.swift; sourceTree = "<group>"; };
 		8C79C1CF28EB553E00FA6D17 /* CompetitionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionRepository.swift; sourceTree = "<group>"; };
 		8C79C1D128EB67EE00FA6D17 /* CompetitionTeamsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompetitionTeamsModel.swift; sourceTree = "<group>"; };
@@ -285,7 +283,6 @@
 		8C79C1A728E9FFCE00FA6D17 /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				8C79C1CB28EB501800FA6D17 /* CompetitionContentModel.swift */,
 				8C79C1B728EA087300FA6D17 /* CompetionModelElement.swift */,
 				8C79C1D128EB67EE00FA6D17 /* CompetitionTeamsModel.swift */,
 			);
@@ -644,7 +641,6 @@
 				8C79C1BE28EA212500FA6D17 /* BaseViewController.swift in Sources */,
 				8C79C1BB28EA20C800FA6D17 /* CompetionsViewController.swift in Sources */,
 				8C79C1D028EB553E00FA6D17 /* CompetitionRepository.swift in Sources */,
-				8C79C1CC28EB501800FA6D17 /* CompetitionContentModel.swift in Sources */,
 				8C79C1C728EA26E800FA6D17 /* CompetionsViewModelContract.swift in Sources */,
 				8C79C1D228EB67EE00FA6D17 /* CompetitionTeamsModel.swift in Sources */,
 				8C79C1B828EA087300FA6D17 /* CompetionModelElement.swift in Sources */,

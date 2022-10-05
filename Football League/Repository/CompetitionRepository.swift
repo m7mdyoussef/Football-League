@@ -45,33 +45,22 @@ class CompetitionRepository: CompetitionRepositoryContract{
         
         
         competitionsAPI.getAllCompetions { [weak self] (result) in
-            guard let self = self else{
-                print("PVM* getComFailed")
-                return
-            }
+            guard let self = self else{return}
             
             switch result{
             case .success(let competitionModel):
-                print("2")
                 self.handleData(data: competitionModel?.competitions)
             case .failure(let error):
-                print("get from caching")
                 self.localDataSource.fetchAllCompetitions { (competitionsArray) in
                     if let competitionsArray = competitionsArray {
                         self.items.accept(competitionsArray)
                         self.dataSubject.onNext(competitionsArray)
-                       
+                        
                         self.loadingsubject.onNext(false)
                         return
                     }else{
                         self.loadingsubject.onNext(false)
                         self.errorsubject.onNext(error)
-                       // (error.code == 0) ? self.networkConnectionFailedSubject.onNext(true) : self.errorsubject.onNext(error.localizedDescription)
-                        
-//                        //handle in case server error
-//                        print("err:: \(error.code)")
-                        
-                        
                     }
                 }
             }
@@ -90,14 +79,9 @@ class CompetitionRepository: CompetitionRepositoryContract{
             guard let code = data[comp].code else {return}
             group.enter()
             competitionsAPI.getCompetionTeams(code: code) { [weak self] (result) in
-                guard let self = self else{
-                    print("PVM* getTeamsFailed")
-                    return
-                }
-                
+                guard let self = self else{return}
                 switch result{
                 case .success(let competitionTeamsModel):
-                    print("3")
                     compContentArr[comp].teamsData = competitionTeamsModel
                 case .failure(let error):
                     self.loadingsubject.onNext(false)
@@ -111,7 +95,6 @@ class CompetitionRepository: CompetitionRepositoryContract{
                 guard let self = self else{return}
                 if comp == (data.count - 1) {
                     self.localDataSource.deleteAllData()
-                    //cach and return to dataSubject
                     self.loadingsubject.onNext(false)
                     
                     self.localDataSource.save(competitionArray: compContentArr) { [weak self] (result) in
@@ -122,7 +105,6 @@ class CompetitionRepository: CompetitionRepositoryContract{
                                 print("HD* in b=true")
                             }
                         case .failure(let error):
-                            print("HD* in error")
                             self.errorsubject.onNext(error)
                         }
                         self.items.accept(compContentArr)

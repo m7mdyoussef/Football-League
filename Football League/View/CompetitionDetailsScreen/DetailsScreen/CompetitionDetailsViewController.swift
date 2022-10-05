@@ -40,7 +40,7 @@ class CompetitionDetailsViewController: BaseViewController {
     }
     
     private func setupNavigationController(){
-        self.title = "Competition Details"
+        self.title = Constants.CompetitionDetailsScreenHeader
     }
     
     private func registerCellNibFile(){
@@ -49,11 +49,11 @@ class CompetitionDetailsViewController: BaseViewController {
     }
     
     private func assignLabels(){
-        competitionLogo.sd_setImage(with: URL(string: competition.emblem ?? ""), placeholderImage: UIImage(named:"placeholder"))
+        competitionLogo.sd_setImage(with: URL(string: competition.emblem ?? ""), placeholderImage: UIImage(named:Constants.placeHolderimg))
         competionName.text = (competition.code ?? "") + " " + (competition.name ?? "")
         competitionType.text = competition.type ?? ""
         if let numberOfTeams = competition.teamsData?.count {
-            numberOfteamsLbl.text = "\(numberOfTeams) Teams"
+            numberOfteamsLbl.text = "\(numberOfTeams) " + (Constants.teams)
         }
     }
     
@@ -66,7 +66,7 @@ class CompetitionDetailsViewController: BaseViewController {
         
         teamsTableView.rx.modelSelected(Team.self).subscribe(onNext: {[weak self] (teamItem) in
             guard let self = self else {return}
-            guard let vc = self.storyboard?.instantiateViewController(identifier: "ClubDetailsViewController", creator: { coder in
+            guard let vc = self.storyboard?.instantiateViewController(identifier: Constants.ClubDetailsVC, creator: { coder in
                 return ClubDetailsViewController(coder: coder, team: teamItem)
             }) else {
                 fatalError("Failed to load EditUserViewController from storyboard.")

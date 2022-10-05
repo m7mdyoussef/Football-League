@@ -43,12 +43,8 @@ class ClubDetailsViewController: BaseViewController {
     }
     
     private func setupNavigationController(){
-        self.title = "Club Details"
+        self.title = Constants.clubDetailsScreenHeader
     }
-    
-//    @IBOutlet private weak var clubVenueLbl: UILabel!
-//    @IBOutlet private weak var clubCoachLbl: UILabel!
-//    @IBOutlet private weak var runningCopetitionLbl: UILabel!
     
     private func registerCellNibFile(){
         let competitionsNibCell = UINib(nibName: ClubDetailsCell.identifier, bundle: nil)
@@ -56,7 +52,7 @@ class ClubDetailsViewController: BaseViewController {
     }
     
     private func assignLabels(){
-        clubImageLogo.sd_setImage(with: URL(string: team.crest ?? ""), placeholderImage: UIImage(named:"placeholder"))
+        clubImageLogo.sd_setImage(with: URL(string: team.crest ?? ""), placeholderImage: UIImage(named:Constants.placeHolderimg))
         var teamName = team.name ?? ""
         if let teamShortName = team.shortName {
             teamName += " (" + teamShortName + ")"

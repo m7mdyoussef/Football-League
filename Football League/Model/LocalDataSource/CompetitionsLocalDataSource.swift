@@ -18,15 +18,13 @@ class CompetitionsLocalDataSource{
     private init(){
         appDelegate = UIApplication.shared.delegate as! AppDelegate
         managedContext = appDelegate.persistentContainer.newBackgroundContext()
-        entity = NSEntityDescription.entity(forEntityName: "CompetitionEntity",in: managedContext)
+        entity = NSEntityDescription.entity(forEntityName: Constants.competitionEntity,in: managedContext)
         
     }
     
     func save(competitionArray: [Competition],completion: @escaping (Result<Bool,NSError>) -> Void){
-        print("in competitionArraySaved")
         guard let entity = entity else{
-            print("cant find entity")
-            completion(.failure(NSError(domain: "databaseDomain", code: 0, userInfo: [NSLocalizedDescriptionKey: Constants.genericError])))
+            completion(.failure(NSError(domain: Constants.databaseDomain, code: 0, userInfo: [NSLocalizedDescriptionKey: Constants.genericError])))
             return
         }
         
@@ -35,18 +33,16 @@ class CompetitionsLocalDataSource{
             let competitions = NSManagedObject(entity: entity, insertInto: managedContext)
             let data = try? NSKeyedArchiver.archivedData(withRootObject: competition, requiringSecureCoding: false)
             
-            competitions.setValue(data, forKey: "competitionData")
+            competitions.setValue(data, forKey: Constants.competitionData)
             
         }
         managedContext.perform {[weak self] in
             guard let self = self else {return}
             do {
                 try self.managedContext.save()
-                print("PLDS* saved successfully")
                 completion(.success(true))
                 
             } catch let error as NSError {
-                print("Could not save. \(error), \(error.userInfo)")
                 completion(.failure(error))
                 return
             }
@@ -54,32 +50,25 @@ class CompetitionsLocalDataSource{
     }
     
     func fetchAllCompetitions(completion: @escaping ([Competition]?) -> Void){
-        print("dttt::", NSDate(), "\n")
         var Competitions = [Competition]()
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "CompetitionEntity")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: Constants.competitionEntity)
         
         managedContext.perform {[weak self] in
             guard let self = self else {return}
             
             do {
-                print("dttt::2", NSDate(), "\n")
                 let storedCompetitions = try self.managedContext.fetch(fetchRequest)
                 
                 for storedCompetition in storedCompetitions{
-                    print("dttt::3", NSDate(), "\n")
-                    let compID = storedCompetition.value(forKey: "competitionData") as! Data
+                    let compID = storedCompetition.value(forKey: Constants.competitionData) as! Data
                     let retrieved = try! NSKeyedUnarchiver.unarchivedObject(ofClasses: [Competition.self,CompetitionTeamsModel.self,Team.self,Coach.self,Squad.self,NSArray.self,NSString.self,NSNumber.self], from: compID)
                     Competitions.append(retrieved as! Competition)
-                    print("dttt::4", NSDate(), "\n")
                 }
-                
-                print("ULDS* fetched successfully")
                 
                 DispatchQueue.main.async {
                     if(Competitions.isEmpty){
                         completion(nil)
                     }else{
-                        print("dttt::5", NSDate(), "\n")
                         completion(Competitions)
                     }
                 }
@@ -91,12 +80,10 @@ class CompetitionsLocalDataSource{
                 }
             }
         }
-        
     }
     
     func deleteAllData() {
-        print("in delete")
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CompetitionEntity")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: Constants.competitionEntity)
         fetchRequest.returnsObjectsAsFaults = false
         do {
             let results = try managedContext.fetch(fetchRequest)

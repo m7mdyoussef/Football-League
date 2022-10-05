@@ -49,7 +49,7 @@ class BaseAPI<T:TargetType> {
                     print(error)
                     completion(.failure(error))
                 }
-        }
+            }
     }
     
     private func buildParams(task:Task)-> ([String:Any],ParameterEncoding){
@@ -60,7 +60,5 @@ class BaseAPI<T:TargetType> {
             return (parameters,encoding)
         }
     }
-    
-
 }
 
