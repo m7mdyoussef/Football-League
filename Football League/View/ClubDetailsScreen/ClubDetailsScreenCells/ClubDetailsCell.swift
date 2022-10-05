@@ -16,6 +16,11 @@ class ClubDetailsCell: UITableViewCell {
     
     static let identifier = "ClubDetailsCell"
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        self.selectionStyle = .none
+    }  
+    
     var teamSquad:Squad!{
         didSet{
             guard let teamSquad = teamSquad else { return }
