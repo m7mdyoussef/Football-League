@@ -6,6 +6,7 @@ import SDWebImage
 
 class CompetitionDetailsViewController: BaseViewController {
     
+    @IBOutlet private weak var detailsView: UIView!
     @IBOutlet private weak var competitionLogo: UIImageView!
     @IBOutlet private weak var competionName: UILabel!
     @IBOutlet private weak var competitionType: UILabel!
@@ -30,7 +31,7 @@ class CompetitionDetailsViewController: BaseViewController {
         super.viewDidLoad()
         teamsTableView.estimatedRowHeight = 140
         teamsTableView.rowHeight = UITableView.automaticDimension
-        
+        detailsView.addShadow(cornerRadius: 10.0, offset: CGSize(width: 2.0, height: 2.0), color: UIColor.black, radius: 3.0, opacity: 0.8)
         items.accept(competition.teamsData?.teams ?? [])
         setupNavigationController()
         registerCellNibFile()
@@ -49,7 +50,7 @@ class CompetitionDetailsViewController: BaseViewController {
     }
     
     private func assignLabels(){
-        competitionLogo.sd_setImage(with: URL(string: competition.emblem ?? ""), placeholderImage: UIImage(named:Constants.placeHolderimg))
+        competitionLogo.downloadImage(url: competition.emblem ?? "")
         competionName.text = (competition.code ?? "") + " " + (competition.name ?? "")
         competitionType.text = competition.type ?? ""
         if let numberOfTeams = competition.teamsData?.count {

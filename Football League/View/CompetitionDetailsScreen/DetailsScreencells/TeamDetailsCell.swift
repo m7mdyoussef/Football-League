@@ -21,9 +21,7 @@ class TeamDetailsCell: UITableViewCell, TeamDetailsCellModelContract {
         
     func configureCellModel(CompetitionTeamModel:Team?){
         guard let CompetitionTeamModel = CompetitionTeamModel else { return }
-        
-        teamImageView.sd_setImage(with: URL(string: CompetitionTeamModel.crest ?? ""), placeholderImage: UIImage(named:Constants.placeHolderimg))
-        
+        teamImageView.downloadImage(url: CompetitionTeamModel.crest ?? "")
         var teamName = CompetitionTeamModel.name ?? ""
         if let leagueShortName = CompetitionTeamModel.shortName {
             teamName += " (" + (leagueShortName) + ")"

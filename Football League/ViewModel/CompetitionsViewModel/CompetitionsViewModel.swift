@@ -9,7 +9,6 @@ class CompetitionsViewModel : CompetionsViewModelContract{
     
     var errorObservable: Observable<(NSError)>
     var loadingObservable: Observable<Bool>
-    var networkConnectionFailedObservable: Observable<Bool>
 
     private var errorsubject = PublishSubject<NSError>()
     private var loadingsubject = PublishSubject<Bool>()
@@ -21,7 +20,6 @@ class CompetitionsViewModel : CompetionsViewModelContract{
     init() {
         errorObservable = errorsubject.asObservable()
         loadingObservable = loadingsubject.asObservable()
-        networkConnectionFailedObservable = networkConnectionFailedSubject.asObservable()
         items = BehaviorRelay<[Competition]>(value: [])
         
         disposeBag = DisposeBag()
@@ -29,12 +27,7 @@ class CompetitionsViewModel : CompetionsViewModelContract{
         bind()
     }
     
-    private func bind() {
-        repo.networkConnectionFailedObservable.subscribe(onNext: {[weak self] (bool) in
-            guard let self = self else {return}
-            self.networkConnectionFailedSubject.onNext(bool)
-        }).disposed(by: disposeBag)
-        
+    private func bind() {        
         repo.dataObservable.subscribe(onNext: {[weak self] (ComArray) in
             guard let self = self else {return}
             self.items.accept(ComArray)

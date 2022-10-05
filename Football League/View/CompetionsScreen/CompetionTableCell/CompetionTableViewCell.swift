@@ -9,6 +9,7 @@ import UIKit
 
 class CompetionTableViewCell: UITableViewCell, CompetionCellModelContract {
     
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var leageNameLabel: UILabel!
     @IBOutlet weak var numberOfteamsLabel: UILabel!
     @IBOutlet weak var numberOfGamesLabel: UILabel!
@@ -35,5 +36,6 @@ class CompetionTableViewCell: UITableViewCell, CompetionCellModelContract {
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectionStyle = .none
+        containerView.addShadow(cornerRadius: 10.0, offset: CGSize(width: 2.0, height: 2.0), color: UIColor.black, radius: 3.0, opacity: 0.8)
     }
 }

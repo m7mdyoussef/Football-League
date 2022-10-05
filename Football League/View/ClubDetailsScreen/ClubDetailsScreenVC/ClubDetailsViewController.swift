@@ -52,7 +52,7 @@ class ClubDetailsViewController: BaseViewController {
     }
     
     private func assignLabels(){
-        clubImageLogo.sd_setImage(with: URL(string: team.crest ?? ""), placeholderImage: UIImage(named:Constants.placeHolderimg))
+        clubImageLogo.downloadImage(url: team.crest ?? "")
         var teamName = team.name ?? ""
         if let teamShortName = team.shortName {
             teamName += " (" + teamShortName + ")"

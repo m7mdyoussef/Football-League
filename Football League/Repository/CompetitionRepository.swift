@@ -13,7 +13,6 @@ class CompetitionRepository: CompetitionRepositoryContract{
     
     private var errorsubject = PublishSubject<NSError>()
     private var loadingsubject = PublishSubject<Bool>()
-    private var networkConnectionFailedSubject = PublishSubject<Bool>()
     private var dataSubject = PublishSubject<[Competition]>()
     private var competitionsAPI:CompetionsApiContract!
     private var disposeBag:DisposeBag
@@ -22,7 +21,6 @@ class CompetitionRepository: CompetitionRepositoryContract{
     var dataObservable: Observable<[Competition]>
     var errorObservable: Observable<(NSError)>
     var loadingObservable: Observable<Bool>
-    var networkConnectionFailedObservable: Observable<Bool>
     var items: BehaviorRelay<[Competition]>
     
     private var localDataSource:CompetitionsLocalDataSource
@@ -30,7 +28,6 @@ class CompetitionRepository: CompetitionRepositoryContract{
     init() {
         errorObservable = errorsubject.asObservable()
         loadingObservable = loadingsubject.asObservable()
-        networkConnectionFailedObservable = networkConnectionFailedSubject.asObservable()
         dataObservable = dataSubject.asObservable()
         items = BehaviorRelay<[Competition]>(value: [])
         
