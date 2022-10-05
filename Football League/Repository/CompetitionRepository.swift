@@ -21,7 +21,6 @@ class CompetitionRepository: CompetitionRepositoryContract{
     var dataObservable: Observable<[Competition]>
     var errorObservable: Observable<(NSError)>
     var loadingObservable: Observable<Bool>
-    var items: BehaviorRelay<[Competition]>
     
     private var localDataSource:CompetitionsLocalDataSource
     
@@ -29,8 +28,6 @@ class CompetitionRepository: CompetitionRepositoryContract{
         errorObservable = errorsubject.asObservable()
         loadingObservable = loadingsubject.asObservable()
         dataObservable = dataSubject.asObservable()
-        items = BehaviorRelay<[Competition]>(value: [])
-        
         
         competitionsAPI = CompetionsAPI.sharedInstance
         localDataSource = CompetitionsLocalDataSource.sharedInstance
@@ -39,20 +36,15 @@ class CompetitionRepository: CompetitionRepositoryContract{
     
     func fetchData() {
         self.loadingsubject.onNext(true)
-        
-        
         competitionsAPI.getAllCompetions { [weak self] (result) in
             guard let self = self else{return}
-            
             switch result{
             case .success(let competitionModel):
                 self.handleData(data: competitionModel?.competitions)
             case .failure(let error):
                 self.localDataSource.fetchAllCompetitions { (competitionsArray) in
                     if let competitionsArray = competitionsArray {
-                        self.items.accept(competitionsArray)
                         self.dataSubject.onNext(competitionsArray)
-                        
                         self.loadingsubject.onNext(false)
                         return
                     }else{
@@ -97,14 +89,11 @@ class CompetitionRepository: CompetitionRepositoryContract{
                     self.localDataSource.save(competitionArray: compContentArr) { [weak self] (result) in
                         guard let self = self else{return}
                         switch result{
-                        case .success(let bol):
-                            if(bol){
-                                print("HD* in b=true")
-                            }
+                        case .success(_):
+                        print("HD* in b=true")
                         case .failure(let error):
                             self.errorsubject.onNext(error)
                         }
-                        self.items.accept(compContentArr)
                         self.dataSubject.onNext(compContentArr)
                     }
                 }

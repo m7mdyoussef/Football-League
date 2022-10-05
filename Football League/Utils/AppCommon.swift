@@ -10,7 +10,6 @@ extension UIImageView{
 }
 
 extension UIView{
-    
     func addShadow(cornerRadius:CGFloat, offset: CGSize, color: UIColor, radius: CGFloat, opacity: Float) {
         layer.cornerRadius = cornerRadius
         layer.shadowColor = color.cgColor
