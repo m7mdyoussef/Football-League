@@ -72,7 +72,7 @@ class CompetitionRepository: CompetitionRepositoryContract{
     private func handleData(data: [Competition]?) {
         
         guard let data = data else {return}
-        var compContentArr = data
+        let compContentArr = data
         
         let group = DispatchGroup()
         
