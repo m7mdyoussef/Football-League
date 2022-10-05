@@ -68,7 +68,7 @@ class CompetionsViewController: BaseViewController {
             self.hideFailView()
             
             let cell = tableView.dequeueReusableCell(withIdentifier: CompetionTableViewCell.identifier, for: IndexPath(index: row)) as! CompetionTableViewCell
-            cell.CompetitionModel = element
+            cell.configureCellModel(CompetitionModel: element)
             return cell
         }.disposed(by: disposeBag)
         

@@ -60,7 +60,7 @@ class CompetitionDetailsViewController: BaseViewController {
     private func listenOnObservables(){
         items.bind(to: teamsTableView.rx.items){ (tableView, row, element) in
             let cell = tableView.dequeueReusableCell(withIdentifier: TeamDetailsCell.identifier, for: IndexPath(index: row)) as! TeamDetailsCell
-            cell.CompetitionTeam = element
+            cell.configureCellModel(CompetitionTeamModel: element)
             return cell
         }.disposed(by: disposeBag)
         

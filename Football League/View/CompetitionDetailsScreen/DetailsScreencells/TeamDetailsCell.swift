@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TeamDetailsCell: UITableViewCell {
+class TeamDetailsCell: UITableViewCell, TeamDetailsCellModelContract {
     
     @IBOutlet private weak var teamImageView: UIImageView!
     @IBOutlet private weak var teamnamelbl: UILabel!
@@ -18,15 +18,9 @@ class TeamDetailsCell: UITableViewCell {
         super.awakeFromNib()
         self.selectionStyle = .none
     }
-    
-    var CompetitionTeam:Team!{
-        didSet{
-            guard let CompetitionTeamModel = CompetitionTeam else { return }
-            configureCellModel(CompetitionTeamModel: CompetitionTeamModel)
-        }
-    }
-    
-    func configureCellModel(CompetitionTeamModel:Team){
+        
+    func configureCellModel(CompetitionTeamModel:Team?){
+        guard let CompetitionTeamModel = CompetitionTeamModel else { return }
         
         teamImageView.sd_setImage(with: URL(string: CompetitionTeamModel.crest ?? ""), placeholderImage: UIImage(named:Constants.placeHolderimg))
         

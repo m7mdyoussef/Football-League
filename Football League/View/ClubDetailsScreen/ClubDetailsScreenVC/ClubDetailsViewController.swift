@@ -74,7 +74,7 @@ class ClubDetailsViewController: BaseViewController {
     private func listenOnObservables(){
         items.bind(to: teamSquadTableView.rx.items){ (tableView, row, element) in
             let cell = tableView.dequeueReusableCell(withIdentifier: ClubDetailsCell.identifier, for: IndexPath(index: row)) as! ClubDetailsCell
-            cell.teamSquad = element
+            cell.configureCellModel(teamSquad: element)
             return cell
         }.disposed(by: disposeBag)
     }
